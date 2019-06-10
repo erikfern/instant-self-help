@@ -5,24 +5,23 @@ import './CoolTheme.css'
 import Quote from './Quote';
 import { quotes } from './quotesList'
 
-
 class App extends Component {
   constructor(){
-    super();
+    super(); 
     this.state = {
-      quotes: quotes,
+      quotes: quotes, 
       activeQuote: null,
       activeTheme: null
     }
   }
 
+  /*helper method to generate a random quote from a list of quotes. 
+  it will not select the index of the same quote as the current quote*/
   randomNumberExcept = (except) => {
     let randomNumber = Math.floor((Math.random() * this.state.quotes.length))
-
     while(randomNumber === except){
       randomNumber = Math.floor((Math.random() * this.state.quotes.length))
     }
-    
     return randomNumber
   }
 
@@ -36,8 +35,8 @@ class App extends Component {
 
   /*
     helper method that allows for changing themes given a certain time of day
-    startingFrom - the hour which the theme should change, in military time format 0-23 hours
-    endsAt - the hour which the theme should change again, in military time format 0-23 hours
+    startingFrom - the hour which the theme should change, in military time format 0-24 hours
+    endsAt - the hour which the theme should change again, in military time format 0-24 hours
     themeBetweenHours - theme to change within the bounds of startingFrom and endsAt
     themeAfterHours - theme to change outside the bounds of startingFrom and endsAt
   */
@@ -47,9 +46,9 @@ class App extends Component {
     console.log(themeBetweenHours)
 
     if(startingFrom > endsAt) {
-      if (time >= startingFrom && time <= 23) {
+      if (time >= startingFrom && time <= 23) { //before midnight
         this.setState({ activeTheme: themeBetweenHours })  
-      } else if (time >= 0 && time <= endsAt) {
+      } else if (time >= 0 && time <= endsAt) { //after midnight
         this.setState({ activeTheme: themeBetweenHours })
       } else {
         this.setState({ activeTheme: themeAfterHours })
